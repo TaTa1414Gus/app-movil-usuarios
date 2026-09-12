@@ -1,17 +1,118 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>Gestión de Usuarios</h1>
+        <p>Administración de usuarios del sistema</p>
+      </div>
+      <button class="btn btn-primary" (click)="abrirModal()">
+        + Nuevo usuario
+      </button>
+    </header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <section class="toolbar">
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" [(ngModel)]="textoBusqueda" (input)="filtrarUsuarios()" placeholder="Buscar usuario...">
+      </div>
+    </section>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <section class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuariosFiltrados">
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.rol }}</td>
+            <td>
+              <span class="status" [ngClass]="usuario.estado === 'Activo' ? 'activo' : 'inactivo'">
+                {{ usuario.estado }}
+              </span>
+            </td>
+            <td>
+              <div class="actions">
+                <button class="btn-edit" (click)="abrirModal(usuario)">✏️ Editar</button>
+                <button class="btn-delete" (click)="eliminarUsuario(usuario.id, usuario.username)">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="usuariosFiltrados.length === 0">
+            <td colspan="7" style="text-align:center;">No hay usuarios registrados</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" [class.active]="isModalOpen">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2>{{ isEditing ? 'Editar usuario' : 'Nuevo usuario' }}</h2>
+          <p>Introduce los datos del usuario</p>
+        </div>
+        <button type="button" class="btn-close" (click)="cerrarModal()">×</button>
+      </div>
+
+      <form (ngSubmit)="guardarUsuario()">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" name="nombre" [(ngModel)]="usuarioActual.nombre" placeholder="Ej. Juan" required>
+          </div>
+          <div class="form-group">
+            <label>Apellido</label>
+            <input type="text" name="apellido" [(ngModel)]="usuarioActual.apellido" placeholder="Ej. Pérez" required>
+          </div>
+          <div class="form-group">
+            <label>Usuario</label>
+            <input type="text" name="username" [(ngModel)]="usuarioActual.username" placeholder="Ej. jperez" required>
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" name="email" [(ngModel)]="usuarioActual.email" placeholder="usuario@correo.com" required>
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" name="password" [(ngModel)]="usuarioActual.password" placeholder="••••••••" [required]="!isEditing">
+          </div>
+          <div class="form-group">
+            <label>Rol</label>
+            <select name="rol" [(ngModel)]="usuarioActual.rol" required>
+              <option value="">Seleccionar rol</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Usuario">Usuario</option>
+              <option value="Editor">Editor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Estado</label>
+            <select name="estado" [(ngModel)]="usuarioActual.estado" required>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarUsuario()">Guardar usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </ion-content>

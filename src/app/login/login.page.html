@@ -1,0 +1,77 @@
+<ion-content [fullscreen]="true">
+  <div class="login-container">
+    
+    <div class="brand">
+      <a href="https://www.jamiecoulter.co.uk" target="_blank">
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/logo.png">
+      </a>
+    </div>
+
+    <div class="login" [ngClass]="{'test': isTest, 'testtwo': isTestTwo}">
+      
+      <div class="login-form-content" [class.fade-out]="hideForm">
+        <div class="login_title">
+          <span>Login to your account</span>
+        </div>
+        
+        <div class="login_fields">
+          <div class="login_fields__user">
+            <div class="icon" [style.opacity]="userFocus ? 1 : 0.5">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png">
+            </div>
+            <input type="text" placeholder="Username" 
+                   [(ngModel)]="username"
+                   (focus)="userFocus = true" 
+                   (blur)="userFocus = false">
+            <div class="validation" 
+                 [style.opacity]="username.length > 0 ? 1 : 0" 
+                 [style.right.px]="username.length > 0 ? 30 : 20">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
+            </div>
+          </div>
+          
+          <div class="login_fields__password">
+            <div class="icon" [style.opacity]="passwordFocus ? 1 : 0.5">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png">
+            </div>
+            <input type="password" placeholder="Password" 
+                   [(ngModel)]="password"
+                   (focus)="passwordFocus = true" 
+                   (blur)="passwordFocus = false">
+            <div class="validation" 
+                 [style.opacity]="password.length > 0 ? 1 : 0" 
+                 [style.right.px]="password.length > 0 ? 30 : 20">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png">
+            </div>
+          </div>
+          
+          <div class="login_fields__submit">
+            <input type="submit" value="Log In" (click)="doLogin()">
+            <div class="forgot">
+              <a href="#">Forgotten password?</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="disclaimer">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+
+      <div class="success" [style.display]="isSuccess ? 'block' : 'none'">
+        <h2>Authentication Success</h2>
+        <p>Welcome back, Gustavo</p>
+      </div>
+    </div>
+
+    <div class="authent" [ngClass]="{'visible': isAuthenticating}">
+      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/puff.svg">
+      <p>Authenticating...</p>
+    </div>
+
+    <div class="love">
+      <p>Made with <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/love_copy.png" /> by <a href='#' target='_blank'> Gustavo Gael Arredondo Corral </a></p>
+    </div>
+
+  </div>
+</ion-content>

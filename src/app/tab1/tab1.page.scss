@@ -1,0 +1,142 @@
+ion-content {
+  --background: #f4f6f9;
+  color: #333333 !important;
+}
+
+.container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 40px auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  background: #ffffff;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  
+  h1 { font-size: 26px; margin-bottom: 5px; margin-top: 0; color: #111827 !important; }
+  p { color: #777777 !important; font-size: 14px; margin: 0; }
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 11px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary { background: #2563eb; color: white !important; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary { background: #e5e7eb; color: #333333 !important; }
+.btn-secondary:hover { background: #d1d5db; }
+
+.toolbar {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  width: 350px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: #ffffff;
+  
+  input { 
+    width: 100%; border: none; outline: none; font-size: 14px; 
+    color: #333333 !important; 
+    background: transparent;
+  }
+}
+
+.table-container {
+  background: white;
+  border-radius: 10px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+table { width: 100%; border-collapse: collapse; min-width: 850px; }
+thead { background: #f8fafc; }
+th { text-align: left; padding: 16px; font-size: 13px; color: #64748b !important; border-bottom: 1px solid #e5e7eb; }
+td { padding: 15px 16px; font-size: 14px; border-bottom: 1px solid #f1f5f9; color: #333333 !important; }
+tbody tr:hover { background: #f8fafc; }
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  &.activo { background: #dcfce7; color: #166534 !important; }
+  &.inactivo { background: #fee2e2; color: #991b1b !important; }
+}
+
+.actions { display: flex; gap: 8px; }
+.btn-edit, .btn-delete { border: none; padding: 7px 10px; border-radius: 5px; cursor: pointer; }
+.btn-edit { background: #dbeafe; color: #1d4ed8 !important; }
+.btn-delete { background: #fee2e2; color: #dc2626 !important; }
+.btn-edit:hover { background: #bfdbfe; }
+.btn-delete:hover { background: #fecaca; }
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none; justify-content: center; align-items: center;
+  padding: 20px;
+  z-index: 1000;
+  &.active { display: flex; }
+}
+
+.modal {
+  background: white; width: 100%; max-width: 700px;
+  border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 22px 25px; border-bottom: 1px solid #eee;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  h2 { font-size: 21px; margin-top: 0; margin-bottom: 5px; color: #111827 !important; }
+  p { color: #777777 !important; font-size: 13px; margin: 0;}
+}
+
+.btn-close { background: none; border: none; font-size: 28px; color: #777; cursor: pointer; }
+.btn-close:hover { color: #111; }
+
+form { padding: 25px; }
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.form-group {
+  display: flex; flex-direction: column; gap: 7px;
+  label { font-size: 13px; font-weight: bold; color: #374151 !important; }
+  input, select { 
+    width: 100%; padding: 11px 12px; border: 1px solid #d1d5db; 
+    border-radius: 6px; font-size: 14px; outline: none; box-sizing: border-box;
+    color: #333333 !important;
+    background: #ffffff !important;
+  }
+  input:focus, select:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+}
+
+.form-actions {
+  display: flex; justify-content: flex-end; gap: 10px;
+  margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+}
+
+@media (max-width: 700px) {
+  .header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .search-box { width: 100%; }
+  .form-grid { grid-template-columns: 1fr; }
+}
