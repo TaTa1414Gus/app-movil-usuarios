@@ -1,66 +1,54 @@
-import { Component, OnInit, inject } from '@angular/core';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonFab,
-  IonFabButton,
-  IonIcon,
-  ActionSheetController,
-} from '@ionic/angular';
-import { addIcons } from 'ionicons';
-import { camera, trash, close } from 'ionicons/icons';
-import type { UserPhoto } from '../services/photo.service';
-import { PhotoService } from '../services/photo.service';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular';
+import axios from 'axios';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonFab, IonFabButton, IonIcon],
+  standalone: true,
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, CommonModule]
 })
 export class Tab2Page implements OnInit {
-  public photoService = inject(PhotoService);
-  private actionSheetController = inject(ActionSheetController);
+  
+  equiposPendientes: number = 0;
+  equiposEnMantenimiento: number = 0;
+  equiposListos: number = 0;
+  equiposRecientes: any[] = [];
 
-  constructor() {
-    addIcons({ camera, trash, close });
+  apiUrl = 'http://localhost/api_movil/api_equipos.php';
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  // Se ejecuta al cargar la pantalla
+  ngOnInit() {
+    this.cargarDashboard();
   }
 
-  async ngOnInit() {
-    await this.photoService.loadSaved();
+  // Se ejecuta cada vez que el usuario entra a la pestaña
+  ionViewWillEnter() {
+    this.cargarDashboard();
   }
 
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
-  }
-
-  public async showActionSheet(photo: UserPhoto, position: number) {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Photos',
-      buttons: [
-        {
-          text: 'Delete',
-          role: 'destructive',
-          icon: 'trash',
-          handler: () => {
-            this.photoService.deletePhoto(photo, position);
-          },
-        },
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {
-            // Nothing to do, action sheet is automatically closed
-          },
-        },
-      ],
-    });
-    await actionSheet.present();
+  async cargarDashboard() {
+    try {
+      const response = await axios.get(this.apiUrl);
+      
+      if (response.data.success) {
+        // Asignar los conteos a las tarjetas
+        this.equiposPendientes = response.data.conteos.pendientes;
+        this.equiposEnMantenimiento = response.data.conteos.en_mantenimiento;
+        this.equiposListos = response.data.conteos.listos;
+        
+        // Asignar la lista a la tabla
+        this.equiposRecientes = response.data.equipos;
+        
+        // Forzar actualización visual
+        this.cdr.detectChanges();
+      }
+    } catch (error) {
+      console.error('Error al cargar datos del servidor:', error);
+    }
   }
 }
